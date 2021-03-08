@@ -188,6 +188,28 @@ if($('.toast-message-sale').length){
 if($('#wrap .tooltipToggle-top').length) {
     MUI.event.toggle('#wrap .tooltipOpenBtn-top', '#wrap .tooltipCont-top', false, function(logic, layer) {
         logic();
+
+        $('.tooltipClose').on('click', function(){
+            $(this).parents('.tooltipCont-top').fadeOut();            
+        });
+    });
+}
+
+//툴팁 단기 실시간 메인
+if($('#wrap .short-main-wrap').length) {
+    MUI.event.toggle('#wrap .tooltipOpenBtn-short', '#wrap .tooltipCont-short', false, function(logic, layer) {
+        logic();
+
+        $('.tooltipClose').on('click', function(){
+            $(this).parents('.tooltipCont-short').fadeOut();            
+        });
+    });
+
+    $('.tooltipOpenBtn-short').focusout(function(){
+        var $layer = $('.' + $(this).data('target'));
+        $layer.hide();
+        $('.tooltipCont-short').removeClass('active');
+        $('.tooltipOpenBtn-short').removeClass('active');
     });
 }
 
@@ -565,18 +587,45 @@ if($('#wrap .toggleOpenBtn').length) {
            if(MUI.slide.LayerSwiper) MUI.slide.LayerSwiper.destroy();
            show();
 
-           MUI.slide.LayerSwiper = MUI.slide.init('.selBranchSwiper','swiper', {
-                loop: true,
-                autoHeight:true,
-                pagination: {
-                    el: '.selBranchSwiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.selBranchSwiper-button-next',
-                    prevEl: '.selBranchSwiper-button-prev',
-                },
-           });
+        //    MUI.slide.LayerSwiper = MUI.slide.init('.selBranchSwiper','swiper', {
+        //         loop: true,
+        //         autoHeight:true,
+        //         pagination: {
+        //             el: '.selBranchSwiper-pagination',
+        //             clickable: true,
+        //         },
+        //         navigation: {
+        //             nextEl: '.selBranchSwiper-button-next',
+        //             prevEl: '.selBranchSwiper-button-prev',
+        //         },
+        //    });
+
+           var activeSlide = $('.selBranchSwiper .swiper-slide');
+                
+            //슬라이드
+            if(activeSlide.length > 1){
+
+                $('.selBranchSwiper-pagination').show();
+                $('.selBranchSwiper-button-prev').show();
+                $('.selBranchSwiper-button-next').show();
+                MUI.slide.LayerSwiper = MUI.slide.init('.selBranchSwiper','swiper', {
+                    loop: true,
+                    autoHeight:true,
+                    pagination: {
+                        el: '.selBranchSwiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.selBranchSwiper-button-next',
+                        prevEl: '.selBranchSwiper-button-prev',
+                    },
+                });
+            
+            }else{
+                $('.selBranchSwiper-pagination').hide();
+                $('.selBranchSwiper-button-prev').hide();
+                $('.selBranchSwiper-button-next').hide();
+            }
         });
     }
     
